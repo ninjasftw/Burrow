@@ -141,6 +141,10 @@ type ZookeeperClient interface {
 	// the children of the specified path, providing an event channel that will receive a message when the watch fires
 	GetW(path string) ([]byte, *zk.Stat, <-chan zk.Event, error)
 
+	// For the given path in Zookeeper, return a boolean stating whether or not the node exists.
+	// The method does not set watch on the node, but verifies existence of a node to avoid authentication error.
+	Exists(path string) (bool, *zk.Stat, error)
+
 	// For the given path in Zookeeper, return a boolean stating whether or not the node exists. This method also sets
 	// a watch on the node (exists if it does not currently exist, or a data watch otherwise), providing an event
 	// channel that will receive a message when the watch fires
