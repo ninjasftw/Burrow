@@ -65,9 +65,10 @@ func TestCoordinator_StartStop(t *testing.T) {
 		return &mockClient, eventChan, nil
 	}
 
-	mockClient.On("Create", "/test", []byte{}, int32(0), zk.WorldACL(zk.PermAll)).Return("", zk.ErrNodeExists)
-	mockClient.On("Create", "/test/path", []byte{}, int32(0), zk.WorldACL(zk.PermAll)).Return("", zk.ErrNodeExists)
-	mockClient.On("Create", "/test/path/burrow", []byte{}, int32(0), zk.WorldACL(zk.PermAll)).Return("", nil)
+	offsetStat := &zk.Stat{}
+	mockClient.On("Exists", "/test").Return(true, offsetStat, nil)
+	mockClient.On("Exists", "/test/path").Return(true, offsetStat, nil)
+	mockClient.On("Exists", "/test/path/burrow").Return(false, offsetStat, nil)
 	mockClient.On("Close").Run(func(args mock.Arguments) { close(eventChan) }).Return()
 
 	coordinator.Configure()

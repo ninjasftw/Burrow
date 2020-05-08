@@ -28,11 +28,15 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/stretchr/testify v1.5.1
 	go.uber.org/zap v1.15.0
+	go.uber.org/atomic v1.5.1 // indirect  
+  go.uber.org/multierr v1.4.0 // indirect
+  github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c
 	golang.org/x/crypto v0.0.0-20200429183012-4b2356b1ed79 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
 	golang.org/x/net v0.0.0-20200505041828-1ed23360d12c // indirect
 	golang.org/x/sys v0.0.0-20200501145240-bc7a7d42d5c3 // indirect
 	golang.org/x/tools v0.0.0-20200505023115-26f46d2f7ef8 // indirect
+  golang.org/x/text v0.3.2 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
