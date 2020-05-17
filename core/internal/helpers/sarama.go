@@ -48,6 +48,10 @@ var kafkaVersions = map[string]sarama.KafkaVersion{
 	"2.0.0":    sarama.V2_0_0_0,
 	"2.0.1":    sarama.V2_0_0_0,
 	"2.1.0":    sarama.V2_1_0_0,
+	"2.2.0":    sarama.V2_2_0_0,
+	"2.2.1":    sarama.V2_2_0_0,
+	"2.3.0":    sarama.V2_3_0_0,
+	"2.4.0":    sarama.V2_4_0_0,	
 }
 
 func parseKafkaVersion(kafkaVersion string) sarama.KafkaVersion {
@@ -114,6 +118,18 @@ func GetSaramaConfigFromClientProfile(profileName string) *sarama.Config {
 		saslName := viper.GetString(configRoot + ".sasl")
 
 		saramaConfig.Net.SASL.Enable = true
+		algorithm := viper.GetString("sasl." + saslName + ".algorithm")
+		if algorithm == "sha256" {
+			saramaConfig.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA256
+			saramaConfig.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient {
+				return &XDGSCRAMClient{HashGeneratorFcn: SHA256}
+			}
+		} else if algorithm == "sha512" {
+			saramaConfig.Net.SASL.Mechanism = sarama.SASLTypeSCRAMSHA512
+			saramaConfig.Net.SASL.SCRAMClientGeneratorFunc = func() sarama.SCRAMClient {
+				return &XDGSCRAMClient{HashGeneratorFcn: SHA512}
+			}
+		}		
 		saramaConfig.Net.SASL.Handshake = viper.GetBool("sasl." + saslName + ".handshake-first")
 		saramaConfig.Net.SASL.User = viper.GetString("sasl." + saslName + ".username")
 		saramaConfig.Net.SASL.Password = viper.GetString("sasl." + saslName + ".password")
